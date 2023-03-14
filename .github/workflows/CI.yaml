@@ -26,8 +26,12 @@ jobs:
         run: |
           source venv/bin/activate
           python3 manage.py test
-        if: ${{ job.status == 'success' }}
+        if: ${{ failure() }}
 
       - name: Cancel workflow on failure
         if: steps.plan.outcome == 'failure'
+        run: exit 1
+      
+      - name: Cancel workflow on failure 2
+        if: ${{ failure() }}
         run: exit 1
