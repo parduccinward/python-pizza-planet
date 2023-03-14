@@ -1,5 +1,7 @@
 import pytest
 
+from app.test.utils.functions import get_random_string
+
 
 def test_create_order_service(create_order_dict):
     order = create_order_dict.json
@@ -12,11 +14,6 @@ def test_create_order_service(create_order_dict):
     pytest.assume(order['date'])
     pytest.assume(order['detail'])
     pytest.assume(order['size'])
-
-
-@pytest.mark.skip(reason="test not implemented yet")
-def test_update_order_service():
-    pytest.assume(False)
 
 
 @pytest.mark.skip(reason="test not implemented yet")
