@@ -25,13 +25,9 @@ jobs:
       - name: Run pytest
         run: |
           source venv/bin/activate
-          python3 manage.py test
-        if: ${{ failure() }}
+          python3 manage.py test --fail-fast || exit 1
+          echo "::set-output name=pytest-failed::$?"
 
-      - name: Cancel workflow on failure
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
-      
-      - name: Cancel workflow on failure 2
+      - name: Cancel workflow on test failure
         if: ${{ failure() }}
         run: exit 1
