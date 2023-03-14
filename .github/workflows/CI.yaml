@@ -26,8 +26,7 @@ jobs:
         run: |
           source venv/bin/activate
           python3 manage.py test
-          echo "::set-output name=pytest-failed::$?"
 
       - name: Cancel workflow on pytest failure
-        if: ${{ steps.pytest.outputs.returncode != 0 }}
+        if: ${{ steps.pytest.outputs.returncode == '0' }}
         run: exit 1
