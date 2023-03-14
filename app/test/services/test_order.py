@@ -1,3 +1,4 @@
+import json
 import pytest
 
 
@@ -23,6 +24,10 @@ def test_get_order_by_id_service(client, create_order_dict, order_uri):
         pytest.assume(returned_order[param] == value)
 
 
-@pytest.mark.skip(reason="test not implemented yet")
-def test_get_orders_service():
-    pytest.assume(False)
+def test_get_orders_service(client, create_orders_list, order_uri):
+    response = client.get(order_uri)
+    pytest.assume(response.status.startswith('200'))
+    response_order = {order["_id"]: order for order in response.json}
+    for order in create_orders_list:
+        formatted_order = json.loads(order.data.decode())
+        pytest.assume(formatted_order["_id"] in response_order)
