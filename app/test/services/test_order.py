@@ -1,7 +1,5 @@
 import pytest
 
-from app.test.utils.functions import get_random_string
-
 
 def test_create_order_service(create_order_dict):
     order = create_order_dict.json
@@ -16,9 +14,13 @@ def test_create_order_service(create_order_dict):
     pytest.assume(order['size'])
 
 
-@pytest.mark.skip(reason="test not implemented yet")
-def test_get_order_by_id_service():
-    pytest.assume(False)
+def test_get_order_by_id_service(client, create_order_dict, order_uri):
+    current_order = create_order_dict.json
+    response = client.get(f'{order_uri}id/{current_order["_id"]}')
+    pytest.assume(response.status.startswith('200'))
+    returned_order = response.json
+    for param, value in current_order.items():
+        pytest.assume(returned_order[param] == value)
 
 
 @pytest.mark.skip(reason="test not implemented yet")
