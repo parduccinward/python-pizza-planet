@@ -29,8 +29,5 @@ jobs:
         if: ${{ job.status == 'success' }}
 
       - name: Cancel workflow on failure
-        uses: wei/cancel-action@v1
-        if: ${{ job.status != 'success' }}
-        with:
-          access_token: ${{ secrets.GITHUB_TOKEN }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
