@@ -7,7 +7,6 @@ from app.common.utils import response_to_dict
 def test_create_order_service(create_order_dict):
     order = create_order_dict.json
     response_has_status_200 = create_order_dict.status.startswith('200')
-
     pytest.assume(response_has_status_200)
     pytest.assume(order['_id'])
     pytest.assume(order['client_address'])
@@ -15,7 +14,8 @@ def test_create_order_service(create_order_dict):
     pytest.assume(order['client_name'])
     pytest.assume(order['client_phone'])
     pytest.assume(order['date'])
-    pytest.assume(order['detail'])
+    pytest.assume(order['ingredient_detail'])
+    pytest.assume(order['beverage_detail'])
     pytest.assume(order['size'])
 
 
