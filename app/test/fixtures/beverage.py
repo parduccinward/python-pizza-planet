@@ -7,7 +7,7 @@ def beverage_mock() -> dict:
     return {
         'name': get_random_string(),
         'price': get_random_price(10, 20),
-        'size': get_random_string,
+        'size': get_random_string(),
     }
 
 
