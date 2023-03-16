@@ -59,7 +59,11 @@ class BeverageManager(BaseManager):
 
     @classmethod
     def get_by_id_list(cls, ids: Sequence):
-        return cls.session.query(cls.model).filter(cls.model._id.in_(set(ids))).all() or []
+        object_query = cls.session.query(
+            cls.model).filter(cls.model._id.in_(ids))
+        objects = {obj._id: obj for obj in object_query}
+        sorted_objects = [objects[id] for id in ids if id in objects]
+        return sorted_objects
 
 
 class OrderManager(BaseManager):
