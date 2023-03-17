@@ -4,8 +4,16 @@ import datetime
 
 
 class ReportController():
-    def __init__(self, orders: list):
+    def __init__(self, orders: list, best_customers_count: int = 3):
         self.orders = orders
+        self.best_customers_count = best_customers_count
+
+    def create(self) -> dict:
+        return {
+            'popular_ingredients': self.get_most_requested_items(search_for='ingredients'),
+            'month_with_more_sales': self.get_month_with_more_sales(),
+            'best_customers': self.get_n_best_customers(number_of_customers=self.best_customers_count)
+        }
 
     def get_most_requested_items(self, search_for: str) -> list:
         counts = {}

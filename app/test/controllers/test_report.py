@@ -6,6 +6,19 @@ from app.controllers.report import ReportController
 from scripts.seed_constants import BEVERAGE_CHOICES, INGREDIENT_CHOICES
 
 
+def test_create_report(fake_orders_with_mock_data):
+    report_controller = ReportController(orders=fake_orders_with_mock_data, best_customers_count=4)
+
+    business_report = report_controller.create()
+
+    pytest.assume('popular_ingredients' in business_report)
+    pytest.assume('month_with_more_sales' in business_report)
+    pytest.assume('best_customers' in business_report)
+    pytest.assume(len(business_report['best_customers']) == 4)
+    for customer in business_report['best_customers']:
+        pytest.assume('client_name' in customer)
+        pytest.assume('total_spending' in customer)
+
 def test_get_most_requested_items(fake_orders_with_mock_data):
     report_controller = ReportController(orders=fake_orders_with_mock_data)
     ingredient_dict = {ingredient[0]: ingredient[1] for ingredient in INGREDIENT_CHOICES}
