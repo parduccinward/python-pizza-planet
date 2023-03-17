@@ -1,4 +1,7 @@
 import pytest
+from scripts.seed_constants import BEVERAGE_CHOICES, INGREDIENT_CHOICES, SIZE_CHOICES
+
+from scripts.utils.pizza_faker import generate_client_names, generate_random_order
 
 from ..utils.functions import (shuffle_list, get_random_sequence,
                                get_random_string)
@@ -11,6 +14,21 @@ def client_data_mock() -> dict:
         'client_name': get_random_string(),
         'client_phone': get_random_sequence()
     }
+
+
+
+@pytest.fixture
+def fake_orders_with_mock_data() -> list:
+    clients = generate_client_names(14)
+    orders = []
+    for _ in range(10):
+        order, ingredient_details, beverage_details, total_price = generate_random_order(
+            clients, SIZE_CHOICES, INGREDIENT_CHOICES, BEVERAGE_CHOICES)
+        order_dict = {**order, 'ingredients': ingredient_details,
+                      'beverages': beverage_details, 'total_price': total_price}
+        orders.append(order_dict)
+
+    return orders
 
 
 @pytest.fixture

@@ -37,10 +37,11 @@ def generate_random_order(clients, sizes, ingredients, beverages):
 
 def generate_ingredient_details(ingredients):
     ingredient_details = []
-    num_ingredient_details = random.randint(3, 10)
+    num_ingredient_details = random.randint(2, 8)
     for ingredient_detail in range(num_ingredient_details):
-        ingredient_id, ingredient_name, ingredient_price = ingredients[ingredient_detail]
+        ingredient_id, ingredient_name, ingredient_price = random.choice(ingredients)
         ingredient_details.append((ingredient_id, ingredient_price))
+    
     return ingredient_details
 
 
@@ -48,7 +49,7 @@ def generate_beverage_details(beverages):
     beverage_details = []
     num_beverage_details = random.randint(0, 7)
     for beverage_detail in range(num_beverage_details):
-        beverage_id, beverage_name, beverage_price, beverage_size = beverages[beverage_detail]
+        beverage_id, beverage_name, beverage_price, beverage_size = random.choice(beverages)
         beverage_details.append((beverage_id, beverage_price))
     return beverage_details
 
