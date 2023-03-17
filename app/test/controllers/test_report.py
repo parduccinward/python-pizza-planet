@@ -31,6 +31,15 @@ def test_get_month_with_more_sales(fake_orders_with_mock_data):
     pytest.assume(isinstance(string_month_with_more_sales, str))
     pytest.assume(string_month_with_more_sales in calendar.month_name)
 
-@pytest.mark.skip
-def test_get_n_best_customers():
-    pytest.assume(False)
+def test_get_n_best_customers(fake_orders_with_mock_data):
+    report_controller = ReportController(orders=fake_orders_with_mock_data)
+    best_3_customers = report_controller.get_n_best_customers(number_of_customers = 3)
+    best_5_customers = report_controller.get_n_best_customers(number_of_customers = 5)
+
+    pytest.assume(len(best_3_customers) == 3)
+    unique_names = [client['client_name'] for client in best_3_customers]
+    pytest.assume(len(unique_names) == len(set(unique_names)))
+
+    pytest.assume(len(best_5_customers) == 5)
+    unique_names = [client['client_name'] for client in best_5_customers]
+    pytest.assume(len(unique_names) == len(set(unique_names)))
