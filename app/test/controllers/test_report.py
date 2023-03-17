@@ -1,4 +1,5 @@
 
+import calendar
 import pytest
 
 from app.controllers.report import ReportController
@@ -23,10 +24,12 @@ def test_get_most_requested_items(fake_orders_with_mock_data):
     pytest.assume(all(isinstance(beverage, str) for beverage in most_requested_beverages))
 
 
-@pytest.mark.skip
-def test_get_date_with_more_sales():
-    pytest.assume(False)
-
+def test_get_month_with_more_sales(fake_orders_with_mock_data):
+    report_controller = ReportController(orders=fake_orders_with_mock_data)
+    string_month_with_more_sales = report_controller.get_month_with_more_sales()
+    
+    pytest.assume(isinstance(string_month_with_more_sales, str))
+    pytest.assume(string_month_with_more_sales in calendar.month_name)
 
 @pytest.mark.skip
 def test_get_n_best_customers():
