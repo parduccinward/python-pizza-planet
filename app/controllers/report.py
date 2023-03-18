@@ -10,7 +10,7 @@ class ReportController():
 
     def create(self) -> dict:
         return {
-            'popular_ingredients': self.get_most_requested_items(search_for='ingredients'),
+            'popular_ingredients': self.get_most_requested_items(search_for='ingredient_detail'),
             'month_with_more_sales': self.get_month_with_more_sales(),
             'best_customers': self.get_n_best_customers(number_of_customers=self.best_customers_count)
         }
@@ -19,10 +19,14 @@ class ReportController():
         counts = {}
         for order in self.orders:
             for item in order[search_for]:
-                item_id = item[0]
+                item_id = item[next(iter(item))]['_id']
                 if item_id not in counts:
                     counts[item_id] = 0
                 counts[item_id] += 1
+
+        if not counts:
+            return []
+
         max_count = max(counts.values())
         most_requested_items = [item_id for item_id,
                                 count in counts.items() if count == max_count]
@@ -33,8 +37,15 @@ class ReportController():
         monthly_sales = defaultdict(float)
 
         for order in self.orders:
-            month = order['date'].month
+            order_date = order['date']
+            if isinstance(order_date, str):
+                order_date = datetime.datetime.fromisoformat(order_date)
+
+            month = order_date.month
             monthly_sales[month] += order['total_price']
+
+        if not monthly_sales:
+            return ""
 
         best_month = max(monthly_sales, key=monthly_sales.get)
 

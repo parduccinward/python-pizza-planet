@@ -3,7 +3,7 @@ def insert_order(cursor, order, total_price):
         INSERT INTO `order` (`client_name`, `client_dni`, `client_address`, `client_phone`, `date`, `total_price`, `size_id`)
         VALUES (?, ?, ?, ?, ?, ?, ?)
      """, (order['client_name'], order['client_dni'], order['client_address'],
-                 order['client_phone'], order['date'], total_price, order['size_id']))
+                 order['client_phone'], order['date'], total_price, order['size_id']['_id']))
 
 
 def insert_ingredient_detail(cursor, order_id, ingredient_id, ingredient_price):

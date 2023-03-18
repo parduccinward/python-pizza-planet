@@ -24,8 +24,8 @@ def fake_orders_with_mock_data() -> list:
     for _ in range(10):
         order, ingredient_details, beverage_details, total_price = generate_random_order(
             clients, SIZE_CHOICES, INGREDIENT_CHOICES, BEVERAGE_CHOICES)
-        order_dict = {**order, 'ingredients': ingredient_details,
-                      'beverages': beverage_details, 'total_price': total_price}
+        order_dict = {**order, 'ingredient_detail': ingredient_details,
+                      'beverage_detail': beverage_details, 'total_price': total_price}
         orders.append(order_dict)
 
     return orders

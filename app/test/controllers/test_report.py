@@ -10,7 +10,6 @@ def test_create_report(fake_orders_with_mock_data):
     report_controller = ReportController(orders=fake_orders_with_mock_data, best_customers_count=4)
 
     business_report = report_controller.create()
-
     pytest.assume('popular_ingredients' in business_report)
     pytest.assume('month_with_more_sales' in business_report)
     pytest.assume('best_customers' in business_report)
@@ -25,10 +24,10 @@ def test_get_most_requested_items(fake_orders_with_mock_data):
     beverage_dict = {beverage[0]: beverage[1] for beverage in BEVERAGE_CHOICES}
 
 
-    most_requested_ingredients_ids = report_controller.get_most_requested_items(search_for="ingredients")
+    most_requested_ingredients_ids = report_controller.get_most_requested_items(search_for="ingredient_detail")
     most_requested_ingredients = [ingredient_dict.get(x) for x in most_requested_ingredients_ids]
 
-    most_requested_beverages_ids = report_controller.get_most_requested_items(search_for="beverages")
+    most_requested_beverages_ids = report_controller.get_most_requested_items(search_for="beverage_detail")
     most_requested_beverages = [beverage_dict.get(x) for x in most_requested_beverages_ids]
 
     pytest.assume(isinstance(most_requested_ingredients, list))
