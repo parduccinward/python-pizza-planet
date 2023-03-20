@@ -1,6 +1,9 @@
-import inspect
-
-from flask import Blueprint, Flask
+from app.services.beverage import BeverageService
+from app.services.ingredient import IngredientService
+from app.services.order import OrderService
+from app.services.size import SizeService
+from app.services.report import ReportService
+from flask import Flask
 
 
 def create_app(config_class: str):
@@ -10,10 +13,11 @@ def create_app(config_class: str):
 
 
 def register_blueprints(flask_app):
-    from app import services
-    blueprints = inspect.getmembers(services, lambda member: isinstance(member, Blueprint))
-    for name, blueprint in blueprints:
-        prefix = '/' if name == 'index' else f'/{name.replace("_", "-")}'
+    services = [BeverageService, IngredientService,
+                OrderService, SizeService, ReportService]
+    for service_class in services:
+        blueprint = service_class.create_blueprint()
+        prefix = f'/{service_class.blueprint_name.replace("_", "-")}'
         flask_app.register_blueprint(blueprint, url_prefix=prefix)
 
 
